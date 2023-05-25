@@ -1,98 +1,17 @@
-// const productDetails = document.getElementById('product-details');
-// const relatedProductsList = document.querySelector('.product-list');
-
-// const relatedProducts = [
-//     {
-//         id: 2,
-//         name: 'Producto 2',
-//         category: 'Categoría 1',
-//         image: 'https://via.placeholder.com/100',
-//     },
-//     {
-//         id: 3,
-//         name: 'Producto 3',
-//         category: 'Categoría 1',
-//         image: 'https://via.placeholder.com/100',
-//     },
-//     {
-//         id: 4,
-//         name: 'Producto 4',
-//         category: 'Categoría 1',
-//         image: 'https://via.placeholder.com/100',
-//     },
-//     ];
-
-// const product = {
-//     id: 1,
-//     name: 'Producto 1',
-//     category: 'Categoría 1',
-//     description: 'Esta es la descripción del producto 1.',
-//     price: 49.99,
-//     images: [
-//         'https://via.placeholder.com/150',
-//         'https://via.placeholder.com/150/111',
-//         'https://via.placeholder.com/150/222',
-//     ],
-// };
-
-// const displayProductDetails = (product) => {
-//     productDetails.innerHTML = `
-//         <div class="image-navigation">
-//             <button class="prev-image-btn">&lt;</button>
-//             <img src="${product.images[0]}" alt="${product.name}" id="product-image" style="max-width: 150px; border-radius: 5px; margin-bottom: 1rem;">
-//             <button class="next-image-btn">&gt;</button>
-//         </div>
-//         <h2>${product.name}</h2>
-//         <p>Categoría: ${product.category}</p>
-//         <p>${product.description}</p>
-//         <p>Precio: $${product.price.toFixed(2)}</p>
-//         <button class="add-to-cart-btn">Agregar al carrito</button>
-//     `;
-
-//     // Agregando la lógica para cambiar las imágenes
-//     let currentImageIndex = 0;
-//     const productImage = document.getElementById('product-image');
-//     const prevImageBtn = document.querySelector('.prev-image-btn');
-//     const nextImageBtn = document.querySelector('.next-image-btn');
-
-//     const updateProductImage = () => {
-//         productImage.src = product.images[currentImageIndex];
-//     };
-
-//     prevImageBtn.addEventListener('click', () => {
-//         currentImageIndex--;
-//         if (currentImageIndex < 0) {
-//             currentImageIndex = product.images.length - 1;
-//         }
-//         updateProductImage();
-//     });
-
-//     nextImageBtn.addEventListener('click', () => {
-//         currentImageIndex++;
-//         if (currentImageIndex >= product.images.length) {
-//             currentImageIndex = 0;
-//         }
-//         updateProductImage();
-//     });
-// };
-
-// // Función para agregar productos relacionados al DOM
-// const displayRelatedProducts = (products) => {
-//     products.forEach((product) => {
-//         const productCard = document.createElement('div');
-//         productCard.className = 'product-card';
-//         productCard.innerHTML = `
-//             <img src="${product.image}" alt="${product.name}">
-//             <h3>${product.name}</h3>
-//             <p>${product.category}</p>
-//         `;
-//         relatedProductsList.appendChild(productCard);
-//     });
-// };
-
-// // Llamada a las funciones para mostrar los datos en la página
-// displayProductDetails(product);
-// displayRelatedProducts(relatedProducts);
+const addToCartTest = async (userId, productId) => {
+    const response = await fetch('http://localhost:3004/addCart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, productId }),
+    });
+  
+    const data = await response.json();
+    console.log(data);
+  };
+  
+  const provisionalUserId = 1; // Define un userId provisional
 
 const getProductIdFromUrl = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -118,18 +37,19 @@ const fetchProductData = async (productId) => {
 };
 
 const displayProductDetails = (product) => {
-  productDetails.innerHTML = `
-    <div class="image-navigation">
-        <button class="prev-image-btn">&lt;</button>
-        <img src="${product.images[0].ruta_imagen}" alt="${product.name}" id="product-image" style="max-width: 150px; border-radius: 5px; margin-bottom: 1rem;">
-        <button class="next-image-btn">&gt;</button>
-    </div>
-    <h2>${product.name}</h2>
-    <p>Categoría: ${product.category_name}</p>
-    <p>${product.description}</p>
-    <p>Precio: $${parseFloat(product.price).toFixed(2)}</p>
-    <button class="add-to-cart-btn">Agregar al carrito</button>
-`;
+    productDetails.innerHTML = `
+        <div class="image-navigation">
+            <button class="prev-image-btn">&lt;</button>
+            <img src="${product.images[0].ruta_imagen}" alt="${product.name}" id="product-image" style="max-width: 150px; border-radius: 5px; margin-bottom: 1rem;">
+            <button class="next-image-btn">&gt;</button>
+        </div>
+        <h2>${product.name}</h2>
+        <p>Categoría: ${product.category_name}</p>
+        <p>${product.description}</p>
+        <p>Precio: $${parseFloat(product.price).toFixed(2)}</p>
+        <button class="add-to-cart-btn" onclick="addToCartTest(1,${product.id})">Agregar al carrito</button>
+    `;
+
 
   let currentImageIndex = 0;
   const productImage = document.getElementById('product-image');

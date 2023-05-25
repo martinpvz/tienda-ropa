@@ -82,33 +82,6 @@ const addToCartTest = async (userId, productId) => {
 
 const provisionalUserId = 1; // Define un userId provisional
 
-// async function renderProducts(page) {
-//     const products = await fetchProducts();
-//     const startIndex = (page - 1) * productsPerPage;
-//     const endIndex = startIndex + productsPerPage;
-//     const totalPages = Math.ceil(products.length / productsPerPage); // Añadir la definición de totalPages aquí
-//     productDisplay.innerHTML = '';
-  
-//     products.slice(startIndex, endIndex).forEach(product => {
-//       const productElement = document.createElement('div');
-//       productElement.classList.add('product');
-//       productElement.innerHTML = `
-//           <img src="${product.image}" alt="${product.name}">
-//           <h2><a href="./product-details.html?id=${product.id}">${product.name}</a></h2>
-//           <button class="add-to-cart-btn" data-product-id="${product.id}">Agregar al carrito</button>
-//       `;
-//       productDisplay.appendChild(productElement);
-//     });
-  
-//     // Actualizar el evento click del botón nextBtn para usar un cierre con acceso a totalPages
-//     nextBtn.onclick = () => {
-//       if (currentPage < totalPages) {
-//         currentPage++;
-//         renderProducts(currentPage);
-//       }
-//     };
-//   }
-
 async function renderProducts(page) {
   const products = await fetchProducts();
   const startIndex = (page - 1) * productsPerPage;
