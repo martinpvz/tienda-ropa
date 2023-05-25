@@ -5,6 +5,7 @@ const categoryRoutes = require('./routes/categories'); // Añade esta línea
 const cartRoutes = require('./routes/cart'); // Añade esta línea
 const singularRoutes = require('./routes/singularProduct'); // Añade esta línea
 const addCartRoutes = require('./routes/addCart'); // Añade esta línea
+const createUser = require('./routes/user'); // Añade esta línea
 
 // const cookieParser = require('cookie-parser');
 
@@ -22,6 +23,7 @@ app.use('/categories', categoryRoutes); // Añade esta línea
 app.use('/cart', cartRoutes); // Añade esta línea
 app.use('/singularProduct', singularRoutes); // Añade esta línea
 app.use('/addCart', addCartRoutes); // Añade esta línea
+app.use('/user', createUser); // Añade esta línea
 
 // app.js
 app.use((err, req, res, next) => {
