@@ -14,16 +14,10 @@
 const express = require('express');
 const router = express.Router();
 const Cart = require('../models/Cart');
+const cartController = require('../controllers/cart');
 
-router.get('/:user_id', async (req, res, next) => {
-    try {
-        const userId = req.params.user_id;
-        const cart = await Cart.getCartByUserId(userId);
-        res.json(cart);
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
+router.get('/:user_id', cartController.getCartItemsByUserId);
+router.post('/add-item', cartController.addCartItem);
+router.delete('/delete-item/:cart_item_id', cartController.deleteCartItem);
 
 module.exports = router;

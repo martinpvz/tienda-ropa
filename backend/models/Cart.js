@@ -10,6 +10,24 @@ class Cart {
             throw err;
         }
     }
+
+    static async createCart(user_id) {
+        try {
+            const result = await db.query('INSERT INTO carts (user_id) VALUES (?)', [user_id]);
+            return result.insertId;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    static async addCartItem(cart_id, product_id, quantity) {
+        try {
+            const result = await db.query('INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)', [cart_id, product_id, quantity]);
+            return result.insertId;
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 module.exports = Cart;
