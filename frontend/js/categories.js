@@ -91,7 +91,7 @@ const displayProducts = async (products) => {
     console.log(product);
     productCard.innerHTML = `
         <img src="${product.product_image}" alt="${product.product_name}">
-        <h3>${product.product_name}</h3>
+        <h3><a href="./product-details.html?id=${product.product_id}" class="nameCategory">${product.product_name}</a></h3>
         <p>$${parseFloat(product.product_price).toFixed(2)}</p>
         <button class="add-to-cart-btn"  onclick="addToCartTest(${userId}, ${product.product_id})">Agregar al carrito</button>
     `;
