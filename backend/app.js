@@ -44,21 +44,19 @@ const singularRoutes = require('./routes/singularProduct');
 const addCartRoutes = require('./routes/addCart');
 const createUser = require('./routes/user');
 
- 
-
 const cookieParser = require('cookie-parser');
-
- 
 
 const app = express();
 
- 
-
 app.use(cookieParser());
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+      origin: 'http://localhost', // Cambia 'http://tudominio.com' por el dominio de tu cliente
+      credentials: true
+    }; 
+    
+app.use(cors(corsOptions));
 
- 
+app.use(express.json());
 
 app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
