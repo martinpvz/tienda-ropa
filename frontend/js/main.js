@@ -1,59 +1,20 @@
-// const productDisplay = document.getElementById('product-display');
-// const prevBtn = document.getElementById('prev-btn');
-// const nextBtn = document.getElementById('next-btn');
-
-// let currentPage = 1;
-// const productsPerPage = 10;
-
-// // Simulación de la obtención de datos del servidor
-// const products = Array.from({ length: 20 }, (_, i) => ({
-//     id: i + 1,
-//     name: `Producto ${i + 1}`,
-//     image: 'https://via.placeholder.com/200x200',
-// }));
-
-// function renderProducts(page) {
-//     const startIndex = (page - 1) * productsPerPage;
-//     const endIndex = startIndex + productsPerPage;
-//     productDisplay.innerHTML = '';
-
-//     products.slice(startIndex, endIndex).forEach(product => {
-//         const productElement = document.createElement('div');
-//         productElement.classList.add('product');
-//         productElement.innerHTML = `
-//             <img src="${product.image}" alt="${product.name}">
-//             <h2>${product.name}</h2>
-//             <button class="add-to-cart-btn" data-product-id="${product.id}">Agregar al carrito</button>
-//         `;
-//         productDisplay.appendChild(productElement);
-//     });
-// }
-
-// prevBtn.addEventListener('click', () => {
-//     if (currentPage > 1) {
-//         currentPage--;
-//         renderProducts(currentPage);
-//     }
-// });
-
-// nextBtn.addEventListener('click', () => {
-//     const totalPages = Math.ceil(products.length / productsPerPage);
-//     if (currentPage < totalPages) {
-//         currentPage++;
-//         renderProducts(currentPage);
-//     }
-// });
-
-// renderProducts(currentPage);
-
-
-
 const productDisplay = document.getElementById('product-display');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 
 let currentPage = 1;
 const productsPerPage = 10;
+
+const createUserAndGetId = async () => {
+  try {
+    const response = await fetch('http://localhost:3004/user', {method: 'GET',credentials: 'include'});
+    const data = await response.json();
+    return data.userId;
+  } catch (error) {
+    console.error(error);
+  }
+};
+createUserAndGetId()
 
 async function fetchProducts() {
   try {
@@ -80,10 +41,11 @@ const addToCartTest = async (userId, productId) => {
   console.log(data);
 };
 
-const provisionalUserId = 1; // Define un userId provisional
+const provisionalUserId = 2; // Define un userId provisional
 
 async function renderProducts(page) {
   const products = await fetchProducts();
+  const userId = await createUserAndGetId(); // Define un userId provisional
   const startIndex = (page - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const totalPages = Math.ceil(products.length / productsPerPage);
@@ -103,7 +65,7 @@ async function renderProducts(page) {
     const addToCartBtn = productElement.querySelector('.add-to-cart-btn');
     addToCartBtn.addEventListener('click', () => {
       const productId = addToCartBtn.dataset.productId;
-      addToCartTest(provisionalUserId, productId);
+      addToCartTest(userId, productId);
     });
   });
 

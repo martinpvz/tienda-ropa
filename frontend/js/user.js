@@ -1,14 +1,14 @@
-const createUserAndGetId = async () => {
-    try {
-      const response = await fetch('http://localhost:3004/user', {method: 'GET',credentials: 'include'});
-      const data = await response.json();
-      return data.userId;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+// const createUserAndGetId = async () => {
+//     try {
+//       const response = await fetch('http://localhost:3004/user', {method: 'GET',credentials: 'include'});
+//       const data = await response.json();
+//       return data.userId;
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
 
-  createUserAndGetId();
+//   console.log(createUserAndGetId());
   
   /*const addToCart = async (userId, productId) => {
     try {

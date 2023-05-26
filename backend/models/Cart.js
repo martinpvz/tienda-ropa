@@ -2,28 +2,29 @@
 const db = require('../db');
 
 class Cart {
-    static async getCartByUserId(user_id) {
+    static async getCartItemsByUserId(userId) {
         try {
-            const result = await db.query('SELECT cart_items.id as cart_item_id, cart_items.quantity as cart_item_quantity, products.id as product_id, products.name as product_name, products.price as product_price, products.image as product_image FROM cart_items INNER JOIN carts ON cart_items.cart_id = carts.id INNER JOIN products ON cart_items.product_id = products.id WHERE carts.user_id = ?;', [user_id]);
-            return result;
-        } catch (err) {
-            throw err;
-        }
-    }
+            const cartQuery = `
+                SELECT c.id AS cart_id
+                FROM carts c
+                WHERE c.user_id = ?
+            `;
+            const cartResult = await db.query(cartQuery, [userId]);
 
-    static async createCart(user_id) {
-        try {
-            const result = await db.query('INSERT INTO carts (user_id) VALUES (?)', [user_id]);
-            return result.insertId;
-        } catch (err) {
-            throw err;
-        }
-    }
+            if (cartResult.length === 0) {
+                return null;
+            }
 
-    static async addCartItem(cart_id, product_id, quantity) {
-        try {
-            const result = await db.query('INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)', [cart_id, product_id, quantity]);
-            return result.insertId;
+            const cartId = cartResult[0].cart_id;
+            const cartItemsQuery = `
+                SELECT ci.product_id, ci.quantity, p.name, p.price, p.description, p.image
+                FROM cart_items ci
+                JOIN products p ON ci.product_id = p.id
+                WHERE ci.cart_id = ?
+            `;
+            const cartItemsResult = await db.query(cartItemsQuery, [cartId]);
+
+            return cartItemsResult;
         } catch (err) {
             throw err;
         }

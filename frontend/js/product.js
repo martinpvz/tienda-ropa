@@ -18,6 +18,17 @@ const getProductIdFromUrl = () => {
     return urlParams.get('id');
 };
 
+const createUserAndGetId = async () => {
+  try {
+    const response = await fetch('http://localhost:3004/user', {method: 'GET',credentials: 'include'});
+    const data = await response.json();
+    return data.userId;
+  } catch (error) {
+    console.error(error);
+  }
+};
+createUserAndGetId()
+
 const productId = getProductIdFromUrl(); // Reemplazar por el ID del producto que deseas mostrar
 const productDetails = document.getElementById('product-details');
 const relatedProductsList = document.querySelector('.product-list');
@@ -36,7 +47,8 @@ const fetchProductData = async (productId) => {
   }
 };
 
-const displayProductDetails = (product) => {
+const displayProductDetails = async (product) => {
+    const userId = await createUserAndGetId();
     productDetails.innerHTML = `
         <div class="image-navigation">
             <button class="prev-image-btn">&lt;</button>
@@ -47,7 +59,7 @@ const displayProductDetails = (product) => {
         <p>Categoría: ${product.category_name}</p>
         <p>${product.description}</p>
         <p>Precio: $${parseFloat(product.price).toFixed(2)}</p>
-        <button class="add-to-cart-btn" onclick="addToCartTest(1,${product.id})">Agregar al carrito</button>
+        <button class="add-to-cart-btn" onclick="addToCartTest(${userId},${product.id})">Agregar al carrito</button>
     `;
 
 

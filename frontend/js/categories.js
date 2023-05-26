@@ -14,6 +14,17 @@ async function fetchCategoryProducts() {
   }
 }
 
+const createUserAndGetId = async () => {
+  try {
+    const response = await fetch('http://localhost:3004/user', {method: 'GET',credentials: 'include'});
+    const data = await response.json();
+    return data.userId;
+  } catch (error) {
+    console.error(error);
+  }
+};
+createUserAndGetId()
+
 const addToCartTest = async (userId, productId) => {
   const response = await fetch('http://localhost:3004/addCart/add', {
     method: 'POST',
@@ -72,7 +83,8 @@ const closeModalHandler = () => {
   modalProducts.innerHTML = '';
 };
 
-const displayProducts = (products) => {
+const displayProducts = async (products) => {
+  const userId = await createUserAndGetId();
   products.forEach((product) => {
     const productCard = document.createElement('div');
     productCard.className = 'product-card';
@@ -81,7 +93,7 @@ const displayProducts = (products) => {
         <img src="${product.product_image}" alt="${product.product_name}">
         <h3>${product.product_name}</h3>
         <p>$${parseFloat(product.product_price).toFixed(2)}</p>
-        <button class="add-to-cart-btn"  onclick="addToCartTest(1, ${product.product_id})">Agregar al carrito</button>
+        <button class="add-to-cart-btn"  onclick="addToCartTest(${userId}, ${product.product_id})">Agregar al carrito</button>
     `;
     modalProducts.appendChild(productCard);
   });
