@@ -114,7 +114,7 @@ async function renderProducts(page) {
     }
   };
 }
-  
+
   renderProducts(currentPage);
   
   async function setupPagination() {
@@ -137,6 +137,7 @@ async function renderProducts(page) {
   
     renderProducts(currentPage);
   }
+
   
   // Llamar a setupPagination en lugar de renderProducts
   setupPagination();
